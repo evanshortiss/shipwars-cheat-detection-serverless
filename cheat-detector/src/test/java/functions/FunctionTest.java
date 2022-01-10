@@ -23,7 +23,7 @@ public class FunctionTest {
         Shot input = objectMapper.readValue(json, Shot.class);
         CloudEvent<Response> r = (new Function()).function(input);
 
-        Assertions.assertEquals(r.type(), Function.AUDIT_FAIL);
+        Assertions.assertEquals(r.type(), Function.AUDIT_FAIL + "." + AuditType.Bonus);
     }
 
     @Test

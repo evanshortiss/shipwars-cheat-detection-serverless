@@ -7,18 +7,19 @@ import io.quarkus.funqy.knative.events.CloudEventBuilder;
 
 public class Function {
     private static final Logger Log = Logger.getLogger(Function.class);
-
+    public static final String SOURCE = "cheat-detector";
     public static final String AUDIT_PASS = "audit.pass";
     public static final String AUDIT_FAIL = "audit.fail";
     public static final Integer CHEAT_THRESHOLD = getCheatThreshold();
 
 
     @Funq
-    public <T extends BonusMetadata> CloudEvent<Response<T>> function(Shot input) throws InterruptedException {
+    public CloudEvent<Response> function(Shot input) throws InterruptedException {
         // Simulate some processing
         Thread.sleep(500);
 
-        Response<BonusMetadata> r = new Response<BonusMetadata>(
+        String outcome = AUDIT_PASS;
+        Response<BonusMetadata> response = new Response<BonusMetadata>(
             AuditType.Bonus,
             input.getBy().getUuid(),
             new BonusMetadata(input.getShots())
@@ -27,18 +28,15 @@ public class Function {
         if (input.getShots() >= CHEAT_THRESHOLD) {
             Log.infov("User {0} scored {1} points. They might be cheating!", input.getBy().getUsername(), input.getShots());
 
-            return buildResponse(AUDIT_FAIL, r);
+            outcome = AUDIT_FAIL;
         } else {
             Log.infov("User {0} scored {1} points. They're probably not cheating.", input.getBy().getUsername(), input.getShots());
-            
-            return buildResponse(AUDIT_PASS, r);
         }
-    }
 
-    private CloudEvent<Response<T>> buildResponse(String result, Response<T> r) {
         return CloudEventBuilder.create()
-            .type(result + "." + AuditType.Bonus)
-            .build(r);
+            .type(outcome + "." + AuditType.Bonus)
+            .source(SOURCE)
+            .build(response);
     }
 
     /**
