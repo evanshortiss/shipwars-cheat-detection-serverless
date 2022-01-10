@@ -1,0 +1,41 @@
+{
+  "name": "producer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An application that sends fake e-commerce orders to a Kafka topic.",
+  "main": "index.js",
+  "scripts": {
+    "dev:local-kafka": "nodemon -r dotenv/config index.js dotenv_config_path=.env.local | pino-pretty",
+    "dev:remote-kafka": "nodemon -r dotenv/config index.js | pino-pretty",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r dotenv/config index.js"
+  },
+  "keywords": [],
+  "author": "Evan Shortiss <evanshortiss@gmail.com> (https://evanshortiss.com)",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern \"**/*.js\""
+    }
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "singleQuote": true
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "env-var": "^7.0.0",
+    "fastify": "^3.14.0",
+    "kafkajs": "^1.15.0",
+    "kube-service-bindings": "0.0.4-0",
+    "nanoid": "^3.1.22",
+    "pino": "^6.11.2"
+  },
+  "devDependencies": {
+    "husky": "^4.3.8",
+    "nodemon": "^2.0.7",
+    "pino-pretty": "^4.7.1",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
+  }
+}
