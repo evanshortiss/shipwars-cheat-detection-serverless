@@ -1,0 +1,15 @@
+---
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: audit-fail-trigger
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: audit.fail
+  subscriber:
+    ref:
+     apiVersion: serving.knative.dev/v1
+     kind: Service
+     name: audit-alerts

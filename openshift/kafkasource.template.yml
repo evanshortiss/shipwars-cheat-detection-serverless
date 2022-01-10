@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Template
+
+parameters:
+  - name: SECRET_NAME
+    value: rh-cloud-services-service-account
+  - name: KAFKA_BOOTSTRAP_URL
+    required: true
+
+objects:
+  - apiVersion: sources.knative.dev/v1beta1
+    kind: KafkaSource
+    metadata:
+      name: kafka-orders-source
+    spec:
+      bootstrapServers:
+        - ${KAFKA_BOOTSTRAP_URL}
+      topics:
+        - shots
+      net:
+        sasl:
+          enable: true
+          user:
+            secretKeyRef:
+              name: ${SECRET_NAME}
+              key: client-id
+          password:
+            secretKeyRef:
+              name: ${SECRET_NAME}
+              key: client-secret
+        tls:
+          enable: true
+      sink:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: bonus-scoring
