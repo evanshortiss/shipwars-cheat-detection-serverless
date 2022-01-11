@@ -19,7 +19,9 @@ public class FunctionTest {
 
     @Test
     void testFunction() throws JsonMappingException, JsonProcessingException, InterruptedException {
-        CloudEvent<Response> r = (new Function()).function(json.getBytes());
+        ObjectMapper mapper = new ObjectMapper();
+        Shot shot = mapper.readValue(json, Shot.class);
+        CloudEvent<Response> r = (new Function()).function(shot);
 
         Assertions.assertEquals(r.type(), Function.AUDIT_FAIL + "." + AuditType.Bonus);
     }

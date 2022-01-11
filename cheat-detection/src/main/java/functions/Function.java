@@ -1,11 +1,5 @@
 package functions;
 
-import java.nio.charset.StandardCharsets;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.jboss.logging.Logger;
 import io.quarkus.funqy.Funq;
 import io.quarkus.funqy.knative.events.CloudEvent;
@@ -20,27 +14,23 @@ public class Function {
 
 
     @Funq
-    public CloudEvent<Response> function(byte[] bytes) throws InterruptedException, JsonProcessingException {
+    public CloudEvent<Response> function(Shot input) throws InterruptedException {
         // Simulate some processing
         Thread.sleep(500);
-        
-        String input = new String(bytes, StandardCharsets.UTF_8);
-        ObjectMapper mapper = new ObjectMapper();
-        Shot shotData = mapper.readValue(input, Shot.class);
 
         String outcome = AUDIT_PASS;
         Response<BonusMetadata> response = new Response<BonusMetadata>(
             AuditType.Bonus,
-            shotData.getBy().getUuid(),
-            new BonusMetadata(shotData.getShots())
+            input.getBy().getUuid(),
+            new BonusMetadata(input.getShots())
         );
 
-        if (shotData.getShots() >= CHEAT_THRESHOLD) {
-            Log.infov("User {0} scored {1} points. They might be cheating!", shotData.getBy().getUsername(), shotData.getShots());
+        if (input.getShots() >= CHEAT_THRESHOLD) {
+            Log.infov("User {0} scored {1} points. They might be cheating!", input.getBy().getUsername(), input.getShots());
 
             outcome = AUDIT_FAIL;
         } else {
-            Log.infov("User {0} scored {1} points. They're probably not cheating.", shotData.getBy().getUsername(), shotData.getShots());
+            Log.infov("User {0} scored {1} points. They're probably not cheating.", input.getBy().getUsername(), input.getShots());
         }
 
         return CloudEventBuilder.create()
