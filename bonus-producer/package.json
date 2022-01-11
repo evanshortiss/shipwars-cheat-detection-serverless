@@ -23,6 +23,7 @@
     "singleQuote": true
   },
   "dependencies": {
+    "cloudevents": "^5.2.0",
     "dotenv": "^8.2.0",
     "env-var": "^7.0.0",
     "fastify": "^3.14.0",

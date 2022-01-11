@@ -1,6 +1,7 @@
 'use strict';
 
 const log = require('./log');
+const { CloudEvent, HTTP } = require('cloudevents')
 const { Kafka } = require('kafkajs');
 const { KAFKA_CLIENT_ID, KAFKA_TOPIC } = require('./config');
 const { getBinding } = require('kube-service-bindings');
@@ -27,9 +28,19 @@ exports.send = async (shots) => {
   await producer.send({
     topic: KAFKA_TOPIC,
     messages: shots.map((shot) => {
+      const ce = new CloudEvent({
+        type: 'bonus',
+        source: 'shipwars-game-server',
+        id: `${shot.match}:${shot.by.uuid}`,
+        data: shot
+      });
+    
+      const msg = HTTP.binary(ce)
+      
       return {
+        headers: msg.headers,
         key: `${shot.match}:${shot.by.uuid}`,
-        value: JSON.stringify(shot)
+        value: msg.body
       };
     })
   });
