@@ -1,0 +1,20 @@
+name: shipwars-cheat-detection
+namespace: ""
+runtime: quarkus
+image: quay.io/evanshortiss/shipwars-cheat-detection:latest
+imageDigest: ""
+builder: quay.io/boson/faas-jvm-builder:v0.8.4
+builders:
+  default: quay.io/boson/faas-jvm-builder:v0.8.4
+  jvm: quay.io/boson/faas-jvm-builder:v0.8.4
+  native: quay.io/boson/faas-quarkus-native-builder:v0.8.4
+buildpacks: []
+healthEndpoints:
+  liveness: /health/liveness
+  readiness: /health/readiness
+volumes: []
+buildEnvs: []
+envs: []
+annotations: {}
+options: {}
+labels: []

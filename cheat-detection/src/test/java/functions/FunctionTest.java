@@ -19,16 +19,15 @@ public class FunctionTest {
 
     @Test
     void testFunction() throws JsonMappingException, JsonProcessingException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Shot input = objectMapper.readValue(json, Shot.class);
-        CloudEvent<Response> r = (new Function()).function(input);
+        CloudEvent<Response> r = (new Function()).function(json.getBytes());
 
         Assertions.assertEquals(r.type(), Function.AUDIT_FAIL + "." + AuditType.Bonus);
     }
 
     @Test
     public void testFunctionIntegration() {
-        RestAssured.given().contentType("application/json")
+        RestAssured.given()
+                .contentType("application/json")
                 .body(json)
                 .header("ce-id", "42")
                 .header("ce-specversion", "1.0")

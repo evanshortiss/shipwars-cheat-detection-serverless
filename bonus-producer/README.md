@@ -11,6 +11,13 @@ Environment variables are used to configure this application.
 * KAFKA_CLIENT_ID (default: `shot-producer`)
 * KAFKA_TOPIC (default: `shots`)
 
+Service Binding is used to inject Kafka configuration. During local development
+you can configure Service Binding y creating the following files inside *.bindings/kafka/*
+
+* bootstrapServers: Single line with bootstrap server URL
+* user: Single line with the Service Account ID
+* password: Single line with the Service Account Secret
+
 ## HTTP API
 
 This service exposes a HTTP API on port 8080. It accepts a `GET` request to

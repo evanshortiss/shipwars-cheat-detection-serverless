@@ -1,0 +1,8 @@
+{
+  "content-type": "application/json; charset=utf-8",
+  "ce-id": "03ce2ea0-c3a7-499c-8edd-ac4e31c6536a",
+  "ce-time": "2022-01-10T21:01:07.027Z",
+  "ce-type": "bonus",
+  "ce-source": "foo",
+  "ce-specversion": "1.0"
+}
