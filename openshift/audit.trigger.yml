@@ -7,9 +7,9 @@ spec:
   broker: default
   filter:
     attributes:
-      type: audit.fail
+      type: audit.fail.bonus
   subscriber:
     ref:
      apiVersion: serving.knative.dev/v1
      kind: Service
-     name: audit-alerts
+     name: audit-email-alert

@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Template
+
+parameters:
+  - name: CHEAT_THRESHOLD
+    value: "20"
+  - name: BROKER_URL
+    required: true
+  - name: SENDGRID_API_KEY
+    required: true
+  - name: EMAIL_TO
+    required: true
+  - name: EMAIL_FROM
+    required: true
+
+objects:
+  - apiVersion: serving.knative.dev/v1
+    kind: Service
+    metadata:
+      name: cheat-detector
+    spec:
+      template:
+        metadata:
+          labels:
+            app.openshift.io/runtime: nodejs
+        spec:
+          containers:
+            - image: quay.io/evanshortiss/shipwars-cheat-detection:latest
+              imagePullPolicy: Always
+              env:
+                - name: CHEAT_THRESHOLD
+                  value: ${CHEAT_THRESHOLD}
+                - name: BROKER_URL
+                  value: ${BROKER_URL}
+  - apiVersion: serving.knative.dev/v1
+    kind: Service
+    metadata:
+      name: audit-email-alert
+    spec:
+      template:
+        metadata:
+          labels:
+            app.openshift.io/runtime: nodejs
+        spec:
+          containers:
+            - image: quay.io/evanshortiss/shipwars-email-alerts:latest
+              imagePullPolicy: Always
+              env:
+                - name: SENDGRID_API_KEY
+                  value: ${SENDGRID_API_KEY}
+                - name: EMAIL_FROM
+                  value: ${EMAIL_FROM}
+                - name: EMAIL_TO
+                  value: ${EMAIL_TO}
+
+

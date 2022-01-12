@@ -6,6 +6,8 @@ parameters:
     value: rh-cloud-services-service-account
   - name: KAFKA_BOOTSTRAP_URL
     required: true
+  - name: CONSUMER_GROUP
+    value: knative-consumer
 
 objects:
   - apiVersion: sources.knative.dev/v1beta1
@@ -13,6 +15,7 @@ objects:
     metadata:
       name: kafka-orders-source
     spec:
+      consumerGroup: ${CONSUMER_GROUP}
       bootstrapServers:
         - ${KAFKA_BOOTSTRAP_URL}
       topics:
@@ -34,4 +37,4 @@ objects:
         ref:
           apiVersion: serving.knative.dev/v1
           kind: Service
-          name: bonus-scoring
+          name: cheat-detector

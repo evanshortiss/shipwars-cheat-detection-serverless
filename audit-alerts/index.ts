@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from 'express'
 import sendgrid from '@sendgrid/mail'
 import log from 'barelog'
-import { HTTP } from 'cloudevents'
+import { CloudEvent, HTTP } from 'cloudevents'
 import { get } from 'env-var'
 import { json } from 'body-parser'
 
@@ -15,25 +15,38 @@ const app = express()
 
 sendgrid.setApiKey(SENDGRID_API_KEY)
 
+type BonusPayload = {
+  match: string,
+  game: string,
+  by: {
+    username: string
+    uuid: string
+  },
+  shots: number,
+  human: boolean
+}
+
 app.post('/*', json(), async (req, res, next) => {
-  const receivedEvent = HTTP.toEvent({
+  // Need to cast so single object, array should not be
+  // possible AFAIK...
+  const { data } = HTTP.toEvent<BonusPayload>({
     headers: req.headers,
     body: req.body
-  });
+  }) as CloudEvent<BonusPayload>;
 
-  log('received cloud event:', receivedEvent);
-
+  log('received cloud event with data:', { data });
+  
   try {
     const msg = {
       from: EMAIL_FROM,
       to: EMAIL_TO,
-      subject: 'Audit Failure Detected',
-      text: `Received an audit failure!`,
+      subject: `Audit Failure Detected`,
+      text: `The player named ${data?.by.username} is possibly cheating.`,
     }
 
     await sendgrid.send(msg)
     
-    log(`moderation email sent from ${EMAIL_FROM} to ${EMAIL_TO}`)
+    log(`moderation email sent from ${EMAIL_FROM} to ${EMAIL_TO} for user ${data?.by.username}`)
 
     res.status(202).end()
   } catch (e) {
