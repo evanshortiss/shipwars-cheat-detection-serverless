@@ -17,10 +17,15 @@ objects:
   - apiVersion: serving.knative.dev/v1
     kind: Service
     metadata:
-      name: cheat-detector
+      name: cheat-detection
     spec:
       template:
         metadata:
+          annotations:
+            autoscaling.knative.dev/maxScale: '3'
+            autoscaling.knative.dev/target: '1'
+            autoscaling.knative.dev/targetUtilizationPercentage: '50'
+            autoscaling.knative.dev/window: 30s
           labels:
             app.openshift.io/runtime: nodejs
         spec:
@@ -39,8 +44,13 @@ objects:
     spec:
       template:
         metadata:
+          annotations:
+            autoscaling.knative.dev/maxScale: '1'
+            autoscaling.knative.dev/target: '1'
+            autoscaling.knative.dev/targetUtilizationPercentage: '50'
+            autoscaling.knative.dev/window: 30s
           labels:
-            app.openshift.io/runtime: nodejs
+            app.openshift.io/runtime: quarkus
         spec:
           containers:
             - image: quay.io/evanshortiss/shipwars-email-alerts:latest

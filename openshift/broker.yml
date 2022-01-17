@@ -1,0 +1,7 @@
+apiVersion: eventing.knative.dev/v1
+kind: Broker
+metadata:
+  name: default
+  labels:
+    app.kubernetes.io/part-of: broker-app
+spec: {}
