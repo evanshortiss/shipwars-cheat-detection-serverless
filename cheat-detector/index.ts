@@ -54,6 +54,8 @@ app.post('/*', json(), async (req, res, next) => {
   
   const { body, headers } = HTTP.binary(ce)
 
+  log('posting processed cloud event to broker:', { body, headers })
+
   await got.post(BROKER_URL, {
     headers: headers,
     body: body as any
@@ -70,5 +72,5 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 app.use(errorHandler)
 
 app.listen(HTTP_PORT, () => {
-  log(`cheat-detector listening on ${HTTP_PORT}`)
+  log(`cheat-detector listening on ${HTTP_PORT}. Using broker url ${BROKER_URL}`)
 })
