@@ -31,6 +31,9 @@ SendGrid to notify game admins about the suspected cheater.
 
 ## Deployment Process
 
+Note that this can all be automated/scripted. For the purpose of the demo
+I walk through these steps manually.
+
 ### Create an OpenShift Streams Instance
 
 OpenShift Streams for Apache Kafka provides access to hosted and managed
