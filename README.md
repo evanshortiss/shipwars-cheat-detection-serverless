@@ -65,7 +65,7 @@ After following login process you'll have access to an OpenShift environment.
 
 Your OpenShift project can now access the details for your OpenShift Streams for Apache Kafka instance!
 
-### Configure Kafka ACLs
+### Configure Kafka ACLs and Topics
 
 A [Service Account](https://access.redhat.com/documentation/en-us/red_hat_openshift_streams_for_apache_kafka/1/guide/2f4bf7cf-5de2-4254-8274-6bf71673f407) was created when you linked your Kafka instance to the
 OpenShift project. The Service Account provides a username (Client ID) and
@@ -97,7 +97,13 @@ export CLIENT_ID=$(oc get secret rh-cloud-services-service-account -o jsonpath='
 # Provide consume permissions to this service account for applications
 # in the "knative-consumer" consumer group
 rhoas kafka acl grant-access--consumer \
---service-account $CLIENT_ID --topic shots --group knative-consumer
+--service-account $CLIENT_ID --topic-prefix shipwars --group knative-consumer
+```
+
+Now create a topic named `shipwars-bonuses` with 3 partitions:
+
+```
+rhoas kafka topic create --name shipwars-bonuses --partitions 3
 ```
 
 ### Deploy Serverless Broker
@@ -138,11 +144,14 @@ export EMAIL_FROM=audit-alerts@foobar.com
 export EMAIL_TO=audit-department@foobar.com
 
 # Deploy the serverless functions
-oc process -f openshift/knative.services.yml \
--p BROKER_URL=$BROKER_URL \
+oc process -f openshift/knative.service.cheats.yml \
+-p BROKER_URL=$BROKER_URL | oc create -f -
+
+oc process -f openshift/knative.service.alerts.yml \
 -p SENDGRID_API_KEY=$SENDGRID_API_KEY \
 -p EMAIL_FROM=$EMAIL_FROM \
 -p EMAIL_TO=$EMAIL_TO | oc create -f -
+
 ```
 
 ## Send Events to Cheat Detection using a KafkaSource

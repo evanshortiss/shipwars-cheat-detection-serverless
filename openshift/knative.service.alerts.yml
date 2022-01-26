@@ -2,10 +2,6 @@ apiVersion: v1
 kind: Template
 
 parameters:
-  - name: CHEAT_THRESHOLD
-    value: "20"
-  - name: BROKER_URL
-    required: true
   - name: SENDGRID_API_KEY
     required: true
   - name: EMAIL_TO
@@ -14,29 +10,6 @@ parameters:
     required: true
 
 objects:
-  - apiVersion: serving.knative.dev/v1
-    kind: Service
-    metadata:
-      name: cheat-detection
-    spec:
-      template:
-        metadata:
-          annotations:
-            autoscaling.knative.dev/maxScale: '3'
-            autoscaling.knative.dev/target: '1'
-            autoscaling.knative.dev/targetUtilizationPercentage: '50'
-            autoscaling.knative.dev/window: 30s
-          labels:
-            app.openshift.io/runtime: nodejs
-        spec:
-          containers:
-            - image: quay.io/evanshortiss/shipwars-cheat-detection:latest
-              imagePullPolicy: Always
-              env:
-                - name: CHEAT_THRESHOLD
-                  value: ${CHEAT_THRESHOLD}
-                - name: BROKER_URL
-                  value: ${BROKER_URL}
   - apiVersion: serving.knative.dev/v1
     kind: Service
     metadata:
