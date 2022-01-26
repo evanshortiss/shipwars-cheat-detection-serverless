@@ -27,6 +27,7 @@ SendGrid to notify game admins about the suspected cheater.
   * OpenShift Serverless 1.19
 * [RHOAS CLI](https://access.redhat.com/documentation/en-us/red_hat_openshift_streams_for_apache_kafka/1/guide/f520e427-cad2-40ce-823d-96234ccbc047)
 * [OpenShift CLI](https://docs.openshift.com/container-platform/4.9/cli_reference/openshift_cli/getting-started-cli.html).
+* [JQ CLI](https://stedolan.github.io/jq/).
 * [SendGrid Account](https://app.sendgrid.com) with a verified sender address and API Key.
 
 ## Deployment Process
