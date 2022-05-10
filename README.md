@@ -97,7 +97,7 @@ export CLIENT_ID=$(oc get secret rh-cloud-services-service-account -o jsonpath='
 
 # Provide consume permissions to this service account for applications
 # in the "knative-consumer" consumer group
-rhoas kafka acl grant-access--consumer \
+rhoas kafka acl grant-access --consumer \
 --service-account $CLIENT_ID --topic-prefix shipwars --group knative-consumer
 ```
 
