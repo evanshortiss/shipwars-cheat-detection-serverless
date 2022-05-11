@@ -13,15 +13,22 @@ const BROKER_URL = get('BROKER_URL').required().asUrlString()
 const HTTP_PORT = get('HTTP_PORT').default(8080).asIntPositive()
 const app = express()
 
+// const sample = {
+//   "game": "KopNJVxtG9XACStpgCoNz",
+//   "match": "cXepex3y1Ebwy655G3AFz",
+//   "scoreDelta": 210,
+//   "attacker": "OnhtJwmSFR26R4BfVuRZd",
+//   "shots": 42
+// }
+
 type BonusPayload = {
-  match: string,
-  game: string,
-  by: {
-    username: string
-    uuid: string
-  },
-  shots: number,
-  human: boolean
+  data: {
+    game: string,
+    match: string,
+    scoreDelta: number,
+    attacker: string,
+    shots: number
+  }
 }
 
 app.post('/*', json(), async (req, res, next) => {
@@ -38,7 +45,7 @@ app.post('/*', json(), async (req, res, next) => {
 
   if (!data) {
     return next(new Error('cloudevent contains no JSON shot/bonus data'))
-  } else if (data.shots >= CHEAT_THRESHOLD) {
+  } else if (data.data.shots >= CHEAT_THRESHOLD) {
     ce = new CloudEvent({
       type: 'audit.fail.bonus',
       source: 'cheat-detector',
