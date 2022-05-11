@@ -136,7 +136,7 @@ repository. Pre-built images are deployed to save time.
 
 ```bash
 # The cheat detection service will HTTP POST events to this URL
-export BROKER_URL=oc get brokers -o jsonpath='{.items[0].status.address.url}'
+export BROKER_URL=$(oc get brokers -o jsonpath='{.items[0].status.address.url}')
 
 # If the cheat detection detects a potential cheating player, a notification
 # can be sent via email, using SendGrid, to an email address of your choice
