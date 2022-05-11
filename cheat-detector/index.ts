@@ -32,6 +32,9 @@ type BonusPayload = {
 }
 
 app.post('/*', json(), async (req, res, next) => {
+  log('incoming HTTP body %j', req.body)
+  log('incoming HTTP headers %j', req.headers)
+
   let receivedEvent = HTTP.toEvent<BonusPayload>({
     headers: req.headers,
     body: req.body
