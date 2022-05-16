@@ -3,7 +3,7 @@ name: email-alerts
 namespace: ""
 runtime: quarkus
 registry: ""
-image: image-registry.openshift-image-registry.svc:5000/default/email-alerts:latest
+image: quay.io/evanshortiss/shipwars-email-alerts:cloud-events
 imageDigest: ""
 build: ""
 git: {}
