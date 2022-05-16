@@ -12,37 +12,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "username",
-    "uuid"
+    "data"
 })
 @Generated("jsonschema2pojo")
-public class By {
+public class EventContainer {
 
-    @JsonProperty("username")
-    private String username;
-    @JsonProperty("uuid")
-    private String uuid;
+    @JsonProperty("data")
+    private Bonus bonus;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("uuid")
-    public String getUuid() {
-        return uuid;
+    @JsonProperty("data")
+    public Bonus getBonus() {
+        return bonus;
     }
 
-    @JsonProperty("uuid")
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    @JsonProperty("username")
-    public String getUsername() {
-        return username;
-    }
-
-    @JsonProperty("username")
-    public void setUsername(String username) {
-        this.username = username;
+    @JsonProperty("bonus")
+    public void setBonus(Bonus bonus) {
+        this.bonus = bonus;
     }
 
     @JsonAnyGetter

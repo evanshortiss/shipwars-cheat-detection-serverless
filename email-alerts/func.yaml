@@ -1,20 +1,25 @@
+version: 0.19.0
 name: email-alerts
 namespace: ""
 runtime: quarkus
-image: quay.io/evanshortiss/shipwars-email-alerts:latest
+registry: ""
+image: image-registry.openshift-image-registry.svc:5000/default/email-alerts:latest
 imageDigest: ""
+build: ""
+git: {}
 builder: quay.io/boson/faas-jvm-builder:v0.8.4
 builders:
   default: quay.io/boson/faas-jvm-builder:v0.8.4
   jvm: quay.io/boson/faas-jvm-builder:v0.8.4
   native: quay.io/boson/faas-quarkus-native-builder:v0.8.4
 buildpacks: []
-healthEndpoints:
-  liveness: /health/liveness
-  readiness: /health/readiness
 volumes: []
 buildEnvs: []
 envs: []
 annotations: {}
 options: {}
 labels: []
+healthEndpoints:
+  liveness: /health/liveness
+  readiness: /health/readiness
+created: 2022-05-16T11:18:58.757189104-07:00

@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "match",
     "game",
     "shots",
-    "human",
-    "by"
+    "scoreDelta",
+    "attacker"
 })
 @Generated("jsonschema2pojo")
 public class Bonus {
@@ -27,10 +27,10 @@ public class Bonus {
     private String game;
     @JsonProperty("shots")
     private Integer shots;
-    @JsonProperty("human")
-    private Boolean human;
-    @JsonProperty("by")
-    private By by;
+    @JsonProperty("scoreDelta")
+    private Integer scoreDelta;
+    @JsonProperty("attacker")
+    private String attacker;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -64,24 +64,24 @@ public class Bonus {
         this.shots = shots;
     }
 
-    @JsonProperty("human")
-    public Boolean getHuman() {
-        return human;
+    @JsonProperty("scoreDelta")
+    public Integer getscoreDelta() {
+        return scoreDelta;
     }
 
-    @JsonProperty("human")
-    public void setHuman(Boolean human) {
-        this.human = human;
+    @JsonProperty("scoreDelta")
+    public void setscoreDelta(Integer scoreDelta) {
+        this.scoreDelta = scoreDelta;
     }
 
-    @JsonProperty("by")
-    public By getBy() {
-        return by;
+    @JsonProperty("attacker")
+    public String getAttacker() {
+        return attacker;
     }
 
-    @JsonProperty("by")
-    public void setBy(By by) {
-        this.by = by;
+    @JsonProperty("attacker")
+    public void setAttacker(String attacker) {
+        this.attacker = attacker;
     }
 
     @JsonAnyGetter

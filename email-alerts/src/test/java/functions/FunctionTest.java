@@ -18,13 +18,8 @@ public class FunctionTest {
 
     @Test
     void testFunction() {
-
-        By by = new By();
         Bonus bonus = new Bonus();
-
-        by.setUuid("uuid");
-        by.setUsername("fubar");
-        bonus.setBy(by);
+        bonus.setAttacker("foobar");
         bonus.setShots(50);
         
         CloudEvent ce = CloudEventBuilder.create().build(bonus);
@@ -40,7 +35,7 @@ public class FunctionTest {
             .header("ce-specversion", "1.0")
             .post("/")
             .then().statusCode(200)
-            .body("result", equalTo("audit email sent for user Charm Snagglefoot"));
+            .body("result", equalTo("audit email sent for user foobar"));
     }
 
 }
